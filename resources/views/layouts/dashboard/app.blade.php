@@ -3,7 +3,7 @@
 <head dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Blank Page</title>
+    <title>GYM</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     {{--<!-- Bootstrap 3.3.7 -->--}}
@@ -11,23 +11,9 @@
     <link rel="stylesheet" href="{{ asset('dashboard_files/css/ionicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dashboard_files/css/skin-blue.min.css') }}">
 
-    @if (app()->getLocale() == 'ar')
-        <link rel="stylesheet" href="{{ asset('dashboard_files/css/font-awesome-rtl.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('dashboard_files/css/AdminLTE-rtl.min.css') }}">
-        <link href="https://fonts.googleapis.com/css?family=Cairo:400,700" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('dashboard_files/css/bootstrap-rtl.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('dashboard_files/css/rtl.css') }}">
-
-        <style>
-            body, h1, h2, h3, h4, h5, h6 {
-                font-family: 'Cairo', sans-serif !important;
-            }
-        </style>
-    @else
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-        <link rel="stylesheet" href="{{ asset('dashboard_files/css/font-awesome.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('dashboard_files/css/AdminLTE.min.css') }}">
-    @endif
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="{{ asset('dashboard_files/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dashboard_files/css/AdminLTE.min.css') }}">
 
     <style>
         .mr-2{
@@ -70,11 +56,11 @@
             cursor: pointer;
             padding: 0.2em;
           }
-          
+
           input[type=checkbox] {
             display: none;
           }
-          
+
           input[type=checkbox] + label:before {
             content: "\2714";
             background: #e9e9e9;
@@ -91,28 +77,36 @@
             color: transparent;
             transition: .2s;
           }
-          
+
           input[type=checkbox] + label:active:before {
             transform: scale(0);
           }
-          
+
           input[type=checkbox]:checked + label:before {
             background-color: #3c8dbc;
               border-color: #3c8dbc;
               color: #fff;
-          
+
           }
-          
+
           input[type=checkbox]:disabled + label:before {
             transform: scale(1);
             border-color: #aaa;
           }
-          
+
           input[type=checkbox]:checked:disabled + label:before {
             transform: scale(1);
             background-color: #bfb;
             border-color: #bfb;
           }
+
+            .skin-blue .main-header .navbar , .skin-blue .main-header .logo{
+                background-color: #11183c;
+            }
+            .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side{
+                background-color: #0E185F;
+            }
+
           </style>
     {{--<!-- jQuery 3 -->--}}
     <script src="{{ asset('dashboard_files/js/jquery.min.js') }}"></script>
@@ -141,8 +135,8 @@
         {{--<!-- Logo -->--}}
         <a href="{{ asset('dashboard/index') }}" class="logo">
             {{--<!-- mini logo for sidebar mini 50x50 pixels -->--}}
-            <span class="logo-mini"><b>P</b>OS</span>
-            <span class="logo-lg"><b>Point-Of</b>-Sale</span>
+            <span class="logo-mini"><b>G</b>YM</span>
+            <span class="logo-lg"><b>GYM</b></span>
         </a>
 
         <nav class="navbar navbar-static-top">
@@ -159,96 +153,42 @@
 
                     <!-- Messages: style can be found in dropdown.less-->
                     <li class="dropdown messages-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="label label-success">4</span>
-                        </a>
+
                         <ul class="dropdown-menu">
-                            <li class="header">You have 4 messages</li>
+
                             <li>
                                 <!-- inner menu: contains the actual data -->
                                 <ul class="menu">
                                     <li><!-- start message -->
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="{{ asset('uploads/user_images/'. auth()->user()->image) }}" class="img-circle" alt="User Image">
+                                                <img src="{{asset('uploads/user_images/default.png')}}" class="img-circle" alt="User Image">
                                             </div>
-                                            <h4>
-                                                Support Team
-                                                <small>
-                                                    <i class="fa fa-clock-o"></i> 5 mins
-                                                </small>
-                                            </h4>
-                                            <p>Why not</p>
+
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="footer">
-                                <a href="#">See All Messages</a>
-                            </li>
+
                         </ul>
                     </li>
 
-                    {{--<!-- Notifications: style can be found in dropdown.less -->--}}
-                    <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">10</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 10 notifications</li>
-                            <li>
-                                {{--<!-- inner menu: contains the actual data -->--}}
-                                <ul class="menu">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="footer">
-                                <a href="#">View all</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    {{--<!-- Tasks: style can be found in dropdown.less -->--}}
-                    <li class="dropdown tasks-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-flag-o"></i></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                {{--<!-- inner menu: contains the actual data -->--}}
-                                <ul class="menu">
-                                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                                        <li>
-                                            <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                                                {{ $properties['native'] }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
 
                     {{--<!-- User Account: style can be found in dropdown.less -->--}}
                     <li class="dropdown user user-menu">
 
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{ asset('uploads/user_images/'. auth()->user()->image) }}" class="user-image" alt="User Image">
-                            <span class="hidden-xs">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</span>
+                            <img src="{{asset('uploads/user_images/default.png')}}" class="user-image" alt="User Image">
+                            <span class="hidden-xs">{{ auth()->user()->name }}</span>
                         </a>
                         <ul class="dropdown-menu">
 
                             {{--<!-- User image -->--}}
                             <li class="user-header">
-                                <img src="{{ asset('uploads/user_images/'. auth()->user()->image) }}" class="img-circle" alt="User Image">
+                                <img src="{{asset('uploads/user_images/default.png')}}" class="img-circle" alt="User Image">
 
                                 <p>
-                                    {{ auth()->user()->first_name }} {{ auth()->user()->last_name }}
-                                    <small>Member since 2 days</small>
+                                    {{ auth()->user()->name }}
                                 </p>
                             </li>
 
@@ -272,18 +212,15 @@
     </header>
 
     @include('layouts.dashboard._aside')
-    
+
     @yield('content')
 
     @include('partials._session')
 
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            <b>Version</b> 2.4.0
         </div>
-        <strong>Copyright &copy; 2019
-            <a href="https://www.facebook.com/profile.php?id=100001538925750">Mohamed Apo Hipa</a>.</strong> All rights
-        reserved.
+        <strong>Copyright &copy; 2022</strong> All rights reserved.
     </footer>
 
 </div><!-- end of wrapper -->
@@ -351,7 +288,7 @@
          });
 
 
-        CKEDITOR.config.language = "{{ app()->getLocale() }}";
+        CKEDITOR.config.language = "en";
 
     }); //end of ready
 </script>
