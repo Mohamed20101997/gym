@@ -12,7 +12,10 @@
         </div>
 
         <ul class="sidebar-menu" data-widget="tree">
-            <li><a href="{{ route('index') }}"><i class="fa fa-th"></i><span>Dashboard</span></a></li>
+
+            <li class="{{\Request::route()->getName() == 'index' ? 'active' : ''}}" ><a href="{{ route('index') }}"><i class="fa fa-th"></i><span class="app-menu__label">Dashboard</span></a></li>
+
+            <li class="{{\Request::route()->getName() == 'serialNumber' ? 'active' : ''}}" ><a href="{{ route('serialNumber') }}"><i class="fa fa-key"></i><span class="app-menu__label">Serial Number</span></a></li>
 
         </ul>
 

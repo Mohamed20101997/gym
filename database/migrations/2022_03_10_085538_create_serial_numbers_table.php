@@ -16,6 +16,7 @@ class CreateSerialNumbersTable extends Migration
         Schema::create('serial_numbers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('serial_number');
+            $table->tinyInteger('state');
         });
     }
 
