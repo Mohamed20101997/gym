@@ -17,7 +17,7 @@
 
 
 
-    Route::group(['middleware'=>'guest:admin'], function () {
+    Route::group(['middleware'=>'guest:admin','prefix'=>'dashboard'], function () {
 
         Route::get('login', 'AuthController@getLogin')->name('getLogin');
         Route::post('login', 'AuthController@login')->name('login');

@@ -12,7 +12,7 @@ class SerialNumberController extends Controller
     public function index()
     {
         $serialNumbers = SerialNumber::whenSearch(Request()->search)->latest()->paginate(5);
-        return view('dashboard.serial_number.index', compact($serialNumbers));
+        return view('dashboard.serial_number.index', compact('serialNumbers'));
     }
 
     /**
