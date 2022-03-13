@@ -22,7 +22,7 @@ class SerialNumberController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.serial_number.create');
     }
 
     /**
