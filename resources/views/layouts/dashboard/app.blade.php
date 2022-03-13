@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link rel="stylesheet" href="{{ asset('dashboard_files/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dashboard_files/css/AdminLTE.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dashboard_files/plugins/ckeditor/plugins/wsc/skins/moono-lisa/wsc.css') }}">
 
     <style>
         .mr-2{
@@ -30,7 +31,14 @@
             animation: spin 1s linear infinite;
         }
 
-        /* Safari */
+
+        #check{
+            width: 36px;
+            height: 26px;
+
+          }
+
+            /* Safari */
         @-webkit-keyframes spin {
             0% {
                 -webkit-transform: rotate(0deg);
@@ -51,54 +59,6 @@
 
     </style>
     <style>
-            input[type=checkbox] + label {
-            margin: 0.2em;
-            cursor: pointer;
-            padding: 0.2em;
-          }
-
-          input[type=checkbox] {
-            display: none;
-          }
-
-          input[type=checkbox] + label:before {
-            content: "\2714";
-            background: #e9e9e9;
-            border-radius: 0.2em;
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            padding-left: 4px;
-            padding-right: 4px;
-            padding-bottom: 1.3em;
-            margin-right: 0.2em;
-            margin-left: 5px;
-            vertical-align: bottom;
-            color: transparent;
-            transition: .2s;
-          }
-
-          input[type=checkbox] + label:active:before {
-            transform: scale(0);
-          }
-
-          input[type=checkbox]:checked + label:before {
-            background-color: #3c8dbc;
-              border-color: #3c8dbc;
-              color: #fff;
-
-          }
-
-          input[type=checkbox]:disabled + label:before {
-            transform: scale(1);
-            border-color: #aaa;
-          }
-
-          input[type=checkbox]:checked:disabled + label:before {
-            transform: scale(1);
-            background-color: #bfb;
-            border-color: #bfb;
-          }
 
             .skin-blue .main-header .navbar , .skin-blue .main-header .logo{
                 background-color: #11183c;
@@ -253,6 +213,7 @@
 {{--custom js--}}
 <script src="{{ asset('dashboard_files/js/custom/image_preview.js') }}"></script>
 <script src="{{ asset('dashboard_files/js/custom/order.js') }}"></script>
+<script src="{{ asset('dashboard_files/plugins/ckeditor/ckeditor.js') }}"></script>
 
 <script>
     $(document).ready(function(){
@@ -271,8 +232,9 @@
             var that = $(this)
             e.preventDefault();
             var n = new Noty({
+                theme: 'relax',
                 text: "@lang('site.confirm_delete')",
-                type: "warning",
+                type: "info",
                 killer: true,
                 buttons: [
                     Noty.button("@lang('site.yes')", 'btn btn-danger mr-2', function () {
@@ -287,10 +249,13 @@
             n.show();
          });
 
-
         CKEDITOR.config.language = "en";
 
     }); //end of ready
+</script>
+
+<script>
+    CKEDITOR.replace('description');
 </script>
 
 @stack('scripts')

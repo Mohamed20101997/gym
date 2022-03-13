@@ -100,8 +100,7 @@ return [
     'required_with'        => ':attribute مطلوب إذا توفّر :values.',
     'required_with_all'    => ':attribute مطلوب إذا توفّر :values.',
     'required_without'     => ':attribute مطلوب إذا لم يتوفّر :values.',
-    'required_without_all' => ':attribute مطلوب إذا لم يتوفّر :values.',
-    'same'                 => 'يجب أن يتطابق :attribute مع :other.',
+    'required_without_all' => ':attribute مطلوب إذا لم يتوفّر :values.',    'same'                 => 'يجب أن يتطابق :attribute مع :other.',
     'size'                 => [
         'numeric' => 'يجب أن تكون قيمة :attribute مساوية لـ :size.',
         'file'    => 'يجب أن يكون حجم الملف :attribute :size كيلوبايت.',
