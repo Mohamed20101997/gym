@@ -86,7 +86,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini" style="font-weight: 900;font-size: 16px;">
 
 <div class="wrapper">
 
