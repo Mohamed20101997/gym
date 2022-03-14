@@ -256,6 +256,7 @@
 
 <script>
     CKEDITOR.replace('description');
+    CKEDITOR.replace('meal_description');
 </script>
 
 @stack('scripts')

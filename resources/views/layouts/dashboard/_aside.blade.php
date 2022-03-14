@@ -23,6 +23,12 @@
 
             <li class="{{\Request::route()->getName() == 'category.index' ? 'active' : ''}}" ><a href="{{ route('category.index') }}"><i class="fa fa-list"></i><span class="app-menu__label">Categories</span></a></li>
 
+            <li class="{{\Request::route()->getName() == 'followUp.index' ? 'active' : ''}}" ><a href="{{ route('followUp.index') }}"><i class="fa fa-arrow-circle-o-up"></i><span class="app-menu__label">Follow Ups</span></a></li>
+
+            <li class="{{\Request::route()->getName() == 'meal.index' ? 'active' : ''}}" ><a href="{{ route('meal.index') }}"><i class="fa fa-cutlery"></i><span class="app-menu__label">Meals</span></a></li>
+
+            <li class="{{\Request::route()->getName() == 'exercise.index' ? 'active' : ''}}" ><a href="{{ route('exercise.index') }}"><i class="icon-sort-by-attributes"></i><span class="app-menu__label">Exercise</span></a></li>
+
         </ul>
 
     </section>
