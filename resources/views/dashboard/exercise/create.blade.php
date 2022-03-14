@@ -2,10 +2,10 @@
 @section('content')
     <div class="content-wrapper">
         <section class="content-header">
-            <h1> Add Meal </h1>
+            <h1> Add Exercise </h1>
             <ol class="breadcrumb">
                 <li><a href="{{ route('index') }}"><i class="fa fa-th"></i>Dashboard</a></li>
-                <li><a href="{{ route('meal.index') }}"> Meal</a></li>
+                <li><a href="{{ route('exercise.index') }}"> Exercise</a></li>
                 <li class="active">Add</li>
             </ol>
         </section>
@@ -19,7 +19,7 @@
 
                     @include('partials._errors')
 
-                    {!! Form::open(['method'=>'post', 'route'=>'meal.store','enctype'=>'multipart/form-data']) !!}
+                    {!! Form::open(['method'=>'post', 'route'=>'exercise.store','enctype'=>'multipart/form-data']) !!}
 
                     <div class="row">
 
@@ -35,18 +35,18 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="name"> Categories </label>
-                                <select class="form-control" name="category_id">
-                                    <option value="" {{old('category_id') =='' ? 'selected' : '' }}>Choose Category</option>
+                                <label for="name"> FollowUps </label>
+                                <select class="form-control" name="follow_up_id">
+                                    <option value="" {{old('follow_up_id') =='' ? 'selected' : '' }}>Choose followUp</option>
 
-                                    @if(count($categories) > 0)
-                                        @foreach($categories as $category)
-                                            <option value="{{$category->id}}" {{old('category_id') == $category->id ? 'selected' : '' }}>{{$category->name}}</option>
+                                    @if(count($followUps) > 0)
+                                        @foreach($followUps as $follow_up)
+                                            <option value="{{$follow_up->id}}" {{old('follow_up_id') == $follow_up->id ? 'selected' : '' }}>{{$follow_up->name}}</option>
                                         @endforeach
                                     @endif
                                 </select>
 
-                                @error('category_id')
+                                @error('follow_up_id')
                                     <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>
@@ -58,10 +58,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Meal Description</label>
-                                <textarea  name="meal_description" rows="4" cols="50" id="editor2" class="form-control">{{old('meal_description')}}</textarea>
+                                <label>Exercise Description</label>
+                                <textarea  name="description" rows="4" cols="50" id="editor2" class="form-control">{{old('description')}}</textarea>
 
-                                @error('meal_description')
+                                @error('description')
                                     <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>

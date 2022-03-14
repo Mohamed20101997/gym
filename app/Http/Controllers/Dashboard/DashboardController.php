@@ -15,7 +15,11 @@ class DashboardController extends Controller
 {
     public function index(){
 
-        return view('dashboard.index');
+        $client = Client::get();
+        $categories = Category::get();
+        $products = Product::get();
+        $serial_numbers = Product::get();
+        return view('dashboard.index',compact('client','categories','products','serial_numbers'));
 
     } //end of index
 }

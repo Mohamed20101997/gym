@@ -27,7 +27,7 @@
 
             <li class="{{\Request::route()->getName() == 'meal.index' ? 'active' : ''}}" ><a href="{{ route('meal.index') }}"><i class="fa fa-cutlery"></i><span class="app-menu__label">Meals</span></a></li>
 
-            <li class="{{\Request::route()->getName() == 'exercise.index' ? 'active' : ''}}" ><a href="{{ route('exercise.index') }}"><i class="icon-sort-by-attributes"></i><span class="app-menu__label">Exercise</span></a></li>
+            <li class="{{\Request::route()->getName() == 'exercise.index' ? 'active' : ''}}" ><a href="{{ route('exercise.index') }}"><i class="fa fa-hand-o-up"></i><span class="app-menu__label">Exercise</span></a></li>
 
         </ul>
 

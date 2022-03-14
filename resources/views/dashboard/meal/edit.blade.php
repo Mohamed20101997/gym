@@ -35,7 +35,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="name"> Name</label>
+                                <label for="name"> Categories </label>
                                 <select class="form-control" name="category_id">
                                     <option value="" {{old('category_id') =='' ? 'selected' : '' }}>Choose Category</option>
 
