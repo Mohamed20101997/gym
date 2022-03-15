@@ -41,7 +41,7 @@
 
                                     @if(count($followUps) > 0)
                                         @foreach($followUps as $follow_up)
-                                            <option value="{{$follow_up->id}}" {{old('follow_up_id') == $follow_up->id ? 'selected' : '' }}>{{$follow_up->name}}</option>
+                                            <option value="{{$follow_up->id}}" {{old('follow_up_id') == $follow_up->id ? 'selected' : '' }}>({{$follow_up->category->name}})_{{$follow_up->name}}</option>
                                         @endforeach
                                     @endif
                                 </select>
