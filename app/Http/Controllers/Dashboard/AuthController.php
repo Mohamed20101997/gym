@@ -21,7 +21,7 @@ class AuthController extends Controller
         {
             return redirect()->route('index');
         }
-        return redirect()->back()->with(['error'=>'email or password is not correct']);
+        return \Redirect::back()->withErrors(['msg' => 'Email or Password doesn\'t correct']);
     }
 
     public function logout()

@@ -60,6 +60,9 @@
 <div class="login-box">
     <div class="login-logo">
         <a href="../../index2.html"><b>Admin</b>GYM</a>
+        @if($errors->any())
+            <h4 class="alert alert-danger">{{$errors->first()}}</h4>
+        @endif
     </div>
 
 
