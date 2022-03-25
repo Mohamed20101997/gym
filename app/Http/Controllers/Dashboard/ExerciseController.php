@@ -31,6 +31,7 @@ class ExerciseController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
+            'photo' => 'required|mimes:jpeg,jpg,png,gif',
             'follow_up_id' => 'required|exists:follow_ups,id',
         ]);
 
@@ -39,7 +40,9 @@ class ExerciseController extends Controller
 
             $data = $request->except('_token');
 
-
+            if ($request->has('photo')) {
+                $data['photo'] = uploadImage('public_uploads', $request->file('photo'));
+            }
             Exercise::create($data);
 
             session()->flash('success', 'Add Successfully');
@@ -81,6 +84,7 @@ class ExerciseController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
+            'photo' => 'mimes:jpeg,jpg,png,gif',
             'follow_up_id' => 'required|exists:follow_ups,id',
         ]);
 
@@ -89,6 +93,13 @@ class ExerciseController extends Controller
             $exercise = Exercise::find($id);
 
             $data = $request->except('_token');
+
+
+            if ($request->has('photo')) {
+
+                remove_previous($exercise->photo);
+                $data['photo'] = uploadImage('public_uploads', $request->file('photo'));
+            }
 
             $exercise->update($data);
 
@@ -112,6 +123,8 @@ class ExerciseController extends Controller
             {
                 return redirect()->back()->with(['error'=>'No Follows']);
             }
+
+            remove_previous($exercise->photo);
 
             $exercise->delete();
 

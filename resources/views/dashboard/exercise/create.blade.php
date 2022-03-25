@@ -53,6 +53,16 @@
 
                         </div>
 
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Exercise Image</label>
+                                <input type="file" name="photo" class="form-control">
+                                @error("photo")
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
+                            </div>
+                        </div>
+
                     </div> {{-- end of row --}}
 
                     <div class="row">

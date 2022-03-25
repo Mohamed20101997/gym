@@ -33,6 +33,7 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Photo</th>
                                     <th>Name</th>
                                     <th>Follow Up</th>
                                     <th>Description</th>
@@ -44,6 +45,9 @@
                                     <tr>
                                         <td>{{ $index+1 }}</td>
 
+                                        <td>
+                                            <img src="{{image_path($exercise->photo)}}" width="60px" class="img-thumbnail">
+                                        </td>
                                         <td>{{ $exercise->name }}</td>
                                         <td><span class="badge badge-danger p-3" style="background: #3c8dbc">({{$exercise->follow_up->category->name}})_{{ $exercise->follow_up->name }} </span></td>
                                         <td>{!!  strip_tags(Str::limit($exercise->description ,100,'...'))   !!}</td>

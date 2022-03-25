@@ -16,4 +16,9 @@ class Category extends Model
         });
 
     } //end of scopeWhenSearch
+
+
+    public function followUp(){
+        return $this->hasMany(FollowUp::class , 'category_id','id');
+    }
 }
