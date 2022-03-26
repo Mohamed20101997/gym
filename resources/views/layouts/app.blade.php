@@ -12,8 +12,7 @@
     <!-- For Entire Website Color Change -->
     <link id="color-change" rel="stylesheet" href="#"/>
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{asset('front')}}/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="{{ asset('dashboard_files/css/font-awesome.min.css') }}">
 
     <!-- LightBox CSS library for Style gallery view -->
     <link rel="stylesheet" href="{{asset('front')}}/css/lg-transitions.min.css"/>
@@ -21,18 +20,49 @@
 
     <!-- Bootstrap Css -->
     <link href="{{asset('front')}}/css/bootstrap.min.css" rel="stylesheet">
+
+    {{--noty--}}
+    <link rel="stylesheet" href="{{ asset('dashboard_files/plugins/noty/noty.css') }}">
+    <script src="{{ asset('dashboard_files/plugins/noty/noty.min.js') }}"></script>
+    <script src="{{ asset('front/js/sweetalert.js') }}"></script>
+
+
+    <style>
+        .nav-scroll{
+            color: #c5da9b !important;
+            font-weight: bold;
+            font-size: 20px !important;
+        }
+        .nav-not-scroll{
+            font-weight: bold;
+            font-size: 30px !important;
+        }
+        .modal-header{
+            display: flex;
+            justify-content: center;
+            color: #81b21b;
+            font-weight: bold;
+        }
+        .modal-content{
+            background: #11183cf5;
+            color: #FFF;
+        }
+
+    </style>
 </head>
 <body>
 
+@include('partials_front._session')
+@include('partials_front._errors')
 
 <!--  BEGIN HEADER  -->
 <header id="header">
     <!-- BEGIN NAV -->
-    <div class="navbar header-nav navbar-dark navbar-expand-lg" style="background: #0f0f0f96">
+    <div class="navbar header-nav navbar-dark navbar-expand-lg" >
         <div class="container">
 
             <!-- BRAND LOGO -->
-            <a class="navbar-brand" id="navbar-brand" href="{{route('home')}}" style="font-size: 20px !important;">
+            <a class="navbar-brand" id="navbar-brand" href="{{route('home')}}">
                 <span class="highlight-color" id="text-color-change">Fitness</span> Club Management
             </a>
 
@@ -54,56 +84,276 @@
                     <li class="nav-item ml-lg-4"><a class="nav-link" id="hover-nav-menu7" href="#blog">Products</a></li>
 
                 </ul>
-                <a class="btn-nav btn-bg text-decoration-none" id="btn-bg-nav" href="#">Register</a></div>
+
+                @if(auth()->guard('client')->check())
+                    <h5 class="text-white">
+                    <span class="highlight-color" id="text-color-change"> {{auth()->guard('client')->user()->first_name}} </span>  {{auth()->guard('client')->user()->last_name}}
+                    </h5>
+
+                    <a href="{{route('front.logout')}}" class="btn-nav btn-bg text-decoration-none ml-3" >
+                        logout
+                    </a>
+
+                @else
+                    <button id="register" class="btn-nav btn-bg text-decoration-none mr-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+                        Register
+                    </button>
+
+                    <button id="login" class="btn-nav btn-bg text-decoration-none" data-toggle="modal" data-target=".bd-example-modal-sm" >
+                        Login
+                    </button>
+                @endif
+
+            </div>
+
+
             <!-- END NAVBAR LINKS -->
         </div>
     </div>
     <!-- END NAV -->
 
-    <!-- BEGIN MAIN SLIDER -->
-    <div id="home">
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel slide">
-            <!-- Carosel inner -->
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="bg-hero">
-                        <div class="background-overlay">
-                            <div class="container">
-                                <div class="content-header text-center">
-                                    <div class="line-thick rounded-lg mx-auto" id="bg-color-change"></div>
-                                    <h6 class="text-tracking animated fadeInLeft">Welcome to</h6>
-                                    <h1 class="main-heading animated fadeInRight"><span class="highlight-color"
-                                                                                        id="text-color-change">fitness</span>
-                                        club management</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="bg-hero">
-                        <div class="background-overlay">
-                            <div class="container">
-                                <div class="content-header text-center">
-                                    <div class="line-thick rounded-lg mx-auto" id="bg-color-change"></div>
-                                    <h6 class="text-medium text-tracking animated fadeInLeft">Welcome to</h6>
-                                    <h1 class="main-heading animated fadeInRight"><span class="highlight-color"
-                                                                                        id="text-color-change">fitness</span>
-                                        club management</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- BEGIN SLIDE CHANGE -->
-            <!-- END SLIDE CHANGE -->
-        </div>
-    </div>
-    <!-- END MAIN SLIDER -->
+    @yield('slider')
 </header>
 <!--  END HEADER  -->
+{{-- Model Register --}}
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Create new account</h1>
+            </div>
+
+            {{-- model of register --}}
+            <div class="modal-body">
+            {!! Form::open(['method'=>'post', 'route' => 'front.register' ,'enctype'=>'multipart/form-data']) !!}
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="first_name"> First Name</label>
+                        <input type="text" name="first_name" value="{{ old('first_name') }}" placeholder="first name"
+                               class="form-control" required>
+                    </div>
+
+                    @error('first_name')
+                    <div class="text-danger">{{$message}}</div>
+                    @enderror
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="last_name"> Last Name</label>
+                        <input type="text" name="last_name" value="{{ old('last_name') }}" class="form-control" placeholder="last name" required>
+                    </div>
+
+                    @error('last_name')
+                    <div class="text-danger">{{$message}}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="email" required>
+                    </div>
+
+                    @error('email')
+                    <div class="text-danger">{{$message}}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select class="form-control" name="gender">
+                            <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}> Male</option>
+                            <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}> Female
+                            </option>
+                        </select>
+                    </div>
+
+                    @error('gender')
+                    <div class="text-danger">{{$message}}</div>
+                    @enderror
+                </div>
+
+            </div> {{-- end of row --}}
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    {{-- Password --}}
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password"
+                               name="password" class="form-control" placeholder="Password" required>
+                        @error('password')
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>{{-- end of col Password --}}
+
+                <div class="col-md-4">
+                    {{-- Password confirmation --}}
+                    <div class="form-group">
+                        <label>Re-Password</label>
+                        <input type="password" name="password_confirmation" class="form-control" placeholder="password confirmation" required>
+                        @error('password')
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>{{-- end of col Password confirmation --}}
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" name="phone" {{ old('phone') }} class="form-control" placeholder="phone" required>
+                        @error('phone')
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+
+            </div> {{-- end of row --}}
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Current Weight( KG )</label>
+                        <input type="number" min="1" name="current_weight" value="{{ old('current_weight') }}" class="form-control" placeholder="Current Weight">
+                        @error("current_weight")
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Height( cm )</label>
+                        <input type="number" min="1" name="height" value=" {{ old('height') }}"  class="form-control"  placeholder="Height">
+                        @error("height")
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>ِِAge</label>
+                        <input type="number" min="10" name="age"  value=" {{ old('age') }}"  class="form-control"  placeholder="age" required>
+                        @error("age")
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>	Date Of Birth</label>
+                        <input type="date" name="date_of_birth" value="{{ old('date_of_birth') }}"  class="form-control" placeholder="date of birth" required>
+                        @error("date_of_birth")
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+
+            </div> {{-- end of row --}}
+
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Country</label>
+                        <input type="text" name="country"  value="{{ old('country') }}"  class="form-control" placeholder="country" required>
+                        @error('country')
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" name="city" value="{{ old('city') }}"   class="form-control" placeholder="city" required>
+                        @error('city')
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" name="address"  value="{{ old('address') }}"  class="form-control" placeholder="Address" required>
+                        @error('address')
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+
+            </div> {{-- end of row --}}
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>image</label>
+                            <input type="file" name="image" class="form-control">
+                            @error("image")
+                            <div class="text-danger">{{$message}}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+
+            <div class="form-group modal-footer" style="display: flex; justify-content: center">
+                <button type="submit" class="btn-nav btn-bg text-decoration-none" style="width: 50%">Create New Account</button>
+            </div>
+
+            {!! Form::close() !!}
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+{{-- Model Register --}}
+
+{{-- model of login --}}
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Login</h1>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('front.login')}}" method="post">
+                    @csrf
+                    <div class="form-group mb-3">
+                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                    </div>
+
+                    <div class="form-group modal-footer" style="display: flex; justify-content: center">
+                        <button type="submit" class="btn-nav btn-bg text-decoration-none" style="width: 50%">Login</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @yield('content')
 
 <!-- BEGIN FOOTER -->
@@ -215,6 +465,9 @@
 <script src="{{asset('front')}}/js/lightgallery.min.js"></script>
 <script src="{{asset('front')}}/js/lightgallery-all.min.js"></script>
 <script src="{{asset('front')}}/js/custom.js"></script>
+
+@yield('js')
+
 </body>
 
 <!-- Mirrored from demo.glowlogix.com.pk/gym/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Mar 2022 21:31:13 GMT -->

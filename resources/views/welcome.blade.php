@@ -1,9 +1,58 @@
 @extends('layouts.app')
+
+@section('slider')
+    <!-- BEGIN MAIN SLIDER -->
+    <div id="home">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel slide">
+            <!-- Carosel inner -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="bg-hero">
+                        <div class="background-overlay">
+                            <div class="container">
+                                <div class="content-header text-center">
+                                    <div class="line-thick rounded-lg mx-auto" id="bg-color-change"></div>
+                                    <h6 class="text-tracking animated fadeInLeft">Welcome to</h6>
+                                    <h1 class="main-heading animated fadeInRight"><span class="highlight-color"
+                                                                                        id="text-color-change">fitness</span>
+                                        club management</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="bg-hero2">
+                        <div class="background-overlay">
+                            <div class="container">
+                                <div class="content-header text-center">
+                                    <div class="line-thick rounded-lg mx-auto" id="bg-color-change"></div>
+                                    <h6 class="text-medium text-tracking animated fadeInLeft">Welcome to</h6>
+                                    <h1 class="main-heading animated fadeInRight"><span class="highlight-color"
+                                                                                        id="text-color-change">fitness</span>
+                                        club management</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- BEGIN SLIDE CHANGE -->
+            <ul class="carousel-indicators d-flex align-items-center">
+                <li data-target="#carouselExampleFade" data-slide-to="0"
+                    class="border-0 rounded-circle carousel-style active"></li>
+                <li data-target="#carouselExampleFade" data-slide-to="1"
+                    class="border-0 rounded-circle carousel-style"></li>
+            </ul>
+            <!-- END SLIDE CHANGE -->
+        </div>
+    </div>
+    <!-- END MAIN SLIDER -->
+@endsection
+
+
 @section('content')
-
-
-
-
     <!-- BEGIN  ABOUT SECTION  -->
     <section id="about" class="about-section">
         <div class="container">
@@ -60,11 +109,24 @@
                                     <h3 class="card-title mini-heading dark-text">{{$class->name}}</h3>
                                     <div class="row">
                                         @if(count($class->followUp) > 0)
-                                            @foreach($class->followUp as $followUp)
-                                                <div class="col-md-6">
-                                                    <a href="" class=" btn btn-outline-success">{{$followUp->name}}</a>
-                                                </div>
-                                            @endforeach
+                                            @if(auth()->guard('client')->check())
+                                                @foreach($class->followUp as $followUp)
+                                                    <div class="col-md-6">
+                                                        <button data-url="{{route('front.exercise', $followUp->id)}}"
+                                                                class="btn btn-outline-success serial_number" >{{$followUp->name}}
+                                                        </button>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                @foreach($class->followUp as $followUp)
+                                                    <div class="col-md-6">
+                                                        <button id="login" class="btn btn-outline-success"
+                                                                data-toggle="modal" data-target=".bd-example-modal-sm">
+                                                            {{$followUp->name}}
+                                                        </button>
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
@@ -131,6 +193,65 @@
     <!--  END BLOG SECTION -->
 
     <!-- END  SUBSCRIBE -->
+@endsection
 
+@section('js')
+    <script>
+
+        $(document).on('click','.serial_number', async function (e) {
+
+            var url = $(this).data('url');
+
+            e.preventDefault();
+
+            const ipAPI = '//api.ipify.org?format=json'
+
+            const inputValue = fetch(ipAPI)
+                .then(response => response.json())
+                .then(data => data.ip)
+
+            const {value: ipAddress} = await Swal.fire({
+                title: 'Enter your Serial Number',
+                input: 'text',
+                inputLabel: 'your Serial Number',
+                inputValue: inputValue,
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'You need to write something!'
+                    }
+                }
+            })
+
+            if (ipAddress) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+
+                jQuery.ajax({
+                    url: "{{ url('/check') }}",
+                    method: 'get',
+                    data: {
+                        serial_number: ipAddress
+                    },
+                    success: function(result){
+                        if(result == 'ok'){
+                            window.location.href = url;
+                        }else{
+                            Swal.fire({
+                                title: 'Error!',
+                                text: "Serial Number not correct",
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            })
+                        }
+                    }});
+            }
+
+        })
+
+    </script>
 
 @endsection

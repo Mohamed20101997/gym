@@ -38,7 +38,7 @@ class ClientController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'password' => 'required|confirmed',
-            'image' => 'image',
+            'image' => 'mimes:jpeg,jpg,png,gif',
             'age' => 'required',
             'phone' => 'required',
             'address' => 'required',
@@ -54,6 +54,10 @@ class ClientController extends Controller
 
             if ($request->has('image')) {
                 $data['image'] = uploadImage('public_uploads', $request->file('image'));
+            }
+
+            if(!empty($data['password'])){
+                $data['password'] = bcrypt($data['password']);
             }
 
             Client::create($data);
@@ -98,7 +102,7 @@ class ClientController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'password' => 'sometimes|confirmed',
-            'image' => 'image',
+            'image' => 'mimes:jpeg,jpg,png,gif',
             'age' => 'required',
             'phone' => 'required',
             'address' => 'required',
@@ -117,6 +121,10 @@ class ClientController extends Controller
 
                 remove_previous($client->image);
                 $data['image'] = uploadImage('public_uploads', $request->file('image'));
+            }
+
+            if(!empty($data['password'])){
+                $data['password'] = bcrypt($data['password']);
             }
 
             $client->update($data);
