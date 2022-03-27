@@ -48,6 +48,8 @@
             color: #FFF;
         }
 
+        @yield('css')
+
     </style>
 </head>
 <body>
@@ -58,7 +60,7 @@
 <!--  BEGIN HEADER  -->
 <header id="header">
     <!-- BEGIN NAV -->
-    <div class="navbar header-nav navbar-dark navbar-expand-lg" >
+        <div class="navbar header-nav navbar-dark navbar-expand-lg" id="navbar-top">
         <div class="container">
 
             <!-- BRAND LOGO -->

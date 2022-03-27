@@ -82,6 +82,8 @@
                     </div>
                 </div>
             </div>
+
+        </div>
     </section>
     <!-- end section #about -->
     <!-- END  ABOUT SECTION  -->
@@ -112,7 +114,8 @@
                                             @if(auth()->guard('client')->check())
                                                 @foreach($class->followUp as $followUp)
                                                     <div class="col-md-6">
-                                                        <button data-url="{{route('front.exercise', $followUp->id)}}"
+
+                                                        <button data-url="{{route('front.exercise', [$followUp->id ,$class->id ])}}"
                                                                 class="btn btn-outline-success serial_number" >{{$followUp->name}}
                                                         </button>
                                                     </div>

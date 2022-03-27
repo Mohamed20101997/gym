@@ -15,7 +15,8 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::post('/register', 'HomeController@register')->name('front.register');
 Route::post('/login', 'HomeController@login')->name('front.login');
 Route::get('/logout', 'HomeController@logout')->name('front.logout');
-Route::get('/exercise/{id}', 'HomeController@exercise')->name('front.exercise');
+
+Route::get('/exercise/{follow_id}/{category_id}', 'HomeController@exercise')->name('front.exercise');
 
 
 Route::get('/check', 'HomeController@check')->name('front.check');

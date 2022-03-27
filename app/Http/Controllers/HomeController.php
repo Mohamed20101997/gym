@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Client;
+use App\Exercise;
+use App\FollowUp;
+use App\Meal;
 use App\Product;
 use App\SerialNumber;
 use Illuminate\Http\Request;
@@ -76,9 +79,6 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function exercise(){
-        dd('sdf');
-    }
 
     public function check(Request $request){
         $serial_number = SerialNumber::where('serial_number' , $request->serial_number)->first();
@@ -89,5 +89,15 @@ class HomeController extends Controller
         }
     }
 
+    public function exercise($follow_id, $category_id){
+        $exercise = Exercise::where('follow_up_id' , $follow_id)->get();
+        $meals = Meal::where('category_id' , $category_id)->get();
+
+        $followUp = FollowUp::find($follow_id);
+        $category = Category::find($category_id);
+
+        return view('exercise' , compact('exercise' ,'meals' ,'followUp' ,'category'));
+
+    }
 
 }
