@@ -2,10 +2,10 @@
 @section('content')
     <div class="content-wrapper">
         <section class="content-header">
-            <h1> Add Category </h1>
+            <h1> Add FollowUp </h1>
             <ol class="breadcrumb">
                 <li><a href="{{ route('index') }}"><i class="fa fa-th"></i>Dashboard</a></li>
-                <li><a href="{{ route('category.index') }}"> Category</a></li>
+                <li><a href="{{ route('followUp.index') }}"> FollowUp</a></li>
                 <li class="active">Add</li>
             </ol>
         </section>
@@ -35,7 +35,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="name"> Name</label>
+                                <label for="name">Category Name</label>
                                 <select class="form-control" name="category_id">
                                     <option value="" {{old('category_id') =='' ? 'selected' : '' }}>Choose Category</option>
 

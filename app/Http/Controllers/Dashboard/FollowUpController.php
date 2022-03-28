@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Category;
 use App\FollowUp;
+use App\Rules\unique;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,7 +30,7 @@ class FollowUpController extends Controller
     {
 
         $request->validate([
-            'name' => 'required',
+            'name' => ['required' , new unique($request->category_id)],
             'category_id' => 'required|exists:categories,id',
         ]);
 
@@ -79,7 +80,7 @@ class FollowUpController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => ['required' , new unique($request->category_id , $id)],
             'category_id' => 'required|exists:categories,id',
         ]);
 
