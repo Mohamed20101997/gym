@@ -3,9 +3,10 @@
 namespace App\Rules;
 
 use App\FollowUp;
+use App\Meal;
 use Illuminate\Contracts\Validation\Rule;
 
-class unique implements Rule
+class meal_unique implements Rule
 {
     /**
      * Create a new rule instance.
@@ -30,9 +31,9 @@ class unique implements Rule
     public function passes($attribute, $value)
     {
         if(!empty($this->id)){
-            $follow = FollowUp::where([[$attribute,$value],['category_id',$this->cat_id],['id', '!=', $this->id]])->first();
+            $follow = Meal::where([[$attribute,$value],['category_id',$this->cat_id],['id', '!=', $this->id]])->first();
         }else{
-            $follow = FollowUp::where([[$attribute,$value],['category_id',$this->cat_id]])->first();
+            $follow = Meal::where([[$attribute,$value],['category_id',$this->cat_id]])->first();
         }
 
         if($follow){

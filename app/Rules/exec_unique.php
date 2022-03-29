@@ -2,21 +2,23 @@
 
 namespace App\Rules;
 
+use App\Exercise;
 use App\FollowUp;
+use App\Meal;
 use Illuminate\Contracts\Validation\Rule;
 
-class unique implements Rule
+class exec_unique implements Rule
 {
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    protected $cat_id;
+    protected $follow_id;
     protected $id;
-    public function __construct($cat_id , $id=null)
+    public function __construct($follow_id , $id=null)
     {
-        $this->cat_id = $cat_id;
+        $this->follow_id = $follow_id;
         $this->id = $id;
     }
 
@@ -30,9 +32,9 @@ class unique implements Rule
     public function passes($attribute, $value)
     {
         if(!empty($this->id)){
-            $follow = FollowUp::where([[$attribute,$value],['category_id',$this->cat_id],['id', '!=', $this->id]])->first();
+            $follow = Exercise::where([[$attribute,$value],['follow_up_id',$this->follow_id],['id', '!=', $this->id]])->first();
         }else{
-            $follow = FollowUp::where([[$attribute,$value],['category_id',$this->cat_id]])->first();
+            $follow = Exercise::where([[$attribute,$value],['follow_up_id',$this->follow_id]])->first();
         }
 
         if($follow){

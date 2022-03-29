@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Exercise;
 use App\FollowUp;
+use App\Rules\exec_unique;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,7 +30,7 @@ class ExerciseController extends Controller
     {
 
         $request->validate([
-            'name' => 'required',
+            'name' => ['required' , new exec_unique($request->follow_up_id)],
             'description' => 'required',
             'photo' => 'required|mimes:jpeg,jpg,png,gif',
             'follow_up_id' => 'required|exists:follow_ups,id',
@@ -82,7 +83,7 @@ class ExerciseController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => ['required' , new exec_unique($request->follow_up_id , $id)],
             'description' => 'required',
             'photo' => 'mimes:jpeg,jpg,png,gif',
             'follow_up_id' => 'required|exists:follow_ups,id',

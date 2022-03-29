@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Category;
 use App\Meal;
+use App\Rules\meal_unique;
+use App\Rules\unique;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,7 +31,7 @@ class MealController extends Controller
     {
 
         $request->validate([
-            'name' => 'required',
+            'name' => ['required' , new meal_unique($request->category_id)],
             'meal_description' => 'required',
             'category_id' => 'required|exists:categories,id',
         ]);
@@ -79,7 +81,7 @@ class MealController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => ['required' , new meal_unique($request->category_id,$id)],
             'meal_description' => 'required',
             'category_id' => 'required|exists:categories,id',
         ]);
