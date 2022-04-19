@@ -22,13 +22,22 @@ class CreateClientsTable extends Migration
             $table->string('image')->nullable();
             $table->integer('current_weight')->nullable();
             $table->integer('height')->nullable();
-            $table->integer('age');
-            $table->text('address');
-            $table->string('city');
-            $table->string('country');
+            $table->integer('age')->nullable();
+            $table->text('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
             $table->string('phone');
             $table->string('gender');
-            $table->string('date_of_birth');
+            $table->string('date_of_birth')->nullable();
+
+            $table->tinyInteger('checked')->default(0);
+
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+
+            $table->unsignedBigInteger('follow_up_id');
+            $table->foreign('follow_up_id')->references('id')->on('follow_ups')->onDelete('cascade');
+
         });
     }
 

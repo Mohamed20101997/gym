@@ -17,7 +17,18 @@ class HomeController extends Controller
     public function index()
     {
         $products = Product::get();
-        $classes = Category::with('followUp')->get();
+
+         $classes = Category::with('followUp')->get();
+
+        if(auth()->guard('client')->check()){
+            $client = auth()->guard('client')->user();
+
+            $classes = Category::where('id',$client->category_id)->with(['followUp'=> function($q) use($client){
+                return $q->where('id', $client->follow_up_id);
+            }])->get();
+        }
+
+
 
         return view('welcome',compact('products','classes'));
     }
@@ -29,14 +40,10 @@ class HomeController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'password' => 'required|confirmed',
-            'image' => 'mimes:jpeg,jpg,png,gif',
-            'age' => 'required',
             'phone' => 'required',
-            'address' => 'required',
-            'city' => 'required',
-            'country' => 'required',
             'gender' => 'required',
-            'date_of_birth' => 'required',
+            'category_id' => 'required',
+            'follow_up_id' => 'required',
         ]);
 
         try {
@@ -83,6 +90,11 @@ class HomeController extends Controller
     public function check(Request $request){
         $serial_number = SerialNumber::where('serial_number' , $request->serial_number)->first();
         if($serial_number){
+            $client = Client::find(auth()->guard('client')->user()->id);
+            $client->update([
+                'checked' => 1
+            ]);
+            $serial_number->save();
             return response()->json('ok');
         }else{
             return response()->json('error');
@@ -97,6 +109,54 @@ class HomeController extends Controller
         $category = Category::find($category_id);
 
         return view('exercise' , compact('exercise' ,'meals' ,'followUp' ,'category'));
+
+    }
+
+
+    public function profile(){
+        $client = Client::where('id',auth()->guard('client')->user()->id)->with('category' ,'followUp')->first();
+        $categories = Category::get();
+        return view('profile' , compact('client','categories'));
+    }
+
+    public function updateProfile(Request $request , $id){
+
+        $request->validate([
+            'email' => 'required|email|unique:clients,email,'.$id,
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'password' => 'sometimes|confirmed',
+            'image' => 'mimes:jpeg,jpg,png,gif',
+            'phone' => 'required',
+            'gender' => 'required',
+            'category_id' => 'required',
+            'follow_up_id' => 'required',
+        ]);
+
+        try {
+            $client = Client::find($id);
+
+            $data = $request->except('_token','password_confirmation');
+
+            if ($request->has('image')) {
+
+                remove_previous($client->image);
+                $data['image'] = uploadImage('public_uploads', $request->file('image'));
+            }
+
+            if(!empty($data['password'])){
+                $data['password'] = bcrypt($data['password']);
+            }
+
+            $client->update($data);
+
+            session()->flash('success', 'Update Successfully');
+
+            return redirect()->back();
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => 'There is a problem']);
+        }
 
     }
 

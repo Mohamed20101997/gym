@@ -21,6 +21,7 @@
 
                     {!! Form::open(['method'=>'PuT', 'route'=>['client.update', $client->id] ,'enctype'=>'multipart/form-data' ]) !!}
 
+                    <input type="hidden" value="{{ $client->follow_up_id }}" id="follow_data">
                     <div class="row">
 
                         <div class="col-md-3">
@@ -203,6 +204,42 @@
 
                     </div> {{-- end of row --}}
 
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="category_id">Category</label>
+                                <select class="form-control" name="category_id" id="category_id">
+                                    <option value="">Select Category</option>
+                                    @if (count($categories) > 0)
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}"
+                                                {{ old('category_id', $client->category_id) == $category->id ? 'selected' : '' }}>
+                                                {{ $category->name }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+
+                            @error('category_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="follow_up_id">FollowUp</label>
+                                <select class="form-control" name="follow_up_id" id="follow_up_id">
+                                    <option value="">Select FollowUp</option>
+
+                                </select>
+                            </div>
+
+                            @error('follow_up_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit </button>
                     </div>
@@ -214,3 +251,35 @@
         </section>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        var getAjax = function(val , follow = null) {
+            $.ajax({
+                type: "get",
+                url: "/dashboard/get_follow_up",
+                data: {
+                    'category_id': val,
+                    'follow_up_id': follow,
+                },
+                success: function(response) {
+                    $('#follow_up_id').html(response);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            var category_id_val = $('#category_id option').filter(':selected').val();
+
+            if (category_id_val != '') {
+                var val = category_id_val;
+                var follow = $('#follow_data').val();
+                getAjax(val,follow);
+            }
+
+            $('#category_id').on('change', function() {
+                var val = this.value
+                getAjax(val);
+            });
+        });
+    </script>
+@endpush

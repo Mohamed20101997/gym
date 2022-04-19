@@ -19,4 +19,14 @@ class Client extends Authenticatable
         });
 
     } //end of scopeWhenSearch
+
+
+    public function category(){
+        return $this->belongsTo(Category::class , 'category_id' , 'id');
+    }
+    
+    public function followUp(){
+        return $this->belongsTo(FollowUp::class , 'follow_up_id' , 'id');
+    }
+
 }

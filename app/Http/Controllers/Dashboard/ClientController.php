@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Category;
 use App\Client;
+use App\FollowUp;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,6 +14,7 @@ class ClientController extends Controller
     public function index()
     {
         $clients = Client::whenSearch(Request()->search)->paginate(5);
+
         return view('dashboard.client.index', compact('clients'));
     }
 
@@ -22,7 +25,8 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('dashboard.client.create');
+        $categories = Category::get();
+        return view('dashboard.client.create', compact('categories'));
     }
 
     /**
@@ -46,6 +50,8 @@ class ClientController extends Controller
             'country' => 'required',
             'gender' => 'required',
             'date_of_birth' => 'required',
+            'category_id' => 'required',
+            'follow_up_id' => 'required',
         ]);
 
         try {
@@ -86,9 +92,9 @@ class ClientController extends Controller
     public function edit($id)
     {
         $client = Client::find($id);
-
+        $categories = Category::get();
         if($client){
-            return view('dashboard.client.edit', compact('client'));
+            return view('dashboard.client.edit', compact('client','categories'));
         }else{
             return redirect()->back()->with(['error'=>'no Client']);
         }
@@ -110,6 +116,8 @@ class ClientController extends Controller
             'country' => 'required',
             'gender' => 'required',
             'date_of_birth' => 'required',
+            'category_id' => 'required',
+            'follow_up_id' => 'required',
         ]);
 
         try {
@@ -162,5 +170,13 @@ class ClientController extends Controller
 
                 return redirect()->back()->with(['error'=>'There is a problem']);
             }
+    }
+
+    public function get_follow_up(Request $request){
+        $followUps = FollowUp::where('category_id', $request->category_id)->get();
+        $followUp_id = $request->follow_up_id;
+        $html = view('dashboard.client.follow_up_options' , compact('followUps','followUp_id'))->render();
+
+       return response()->json($html);
     }
 }

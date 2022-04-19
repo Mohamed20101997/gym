@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@section('ul')
+<ul class="navbar-nav nav mx-auto" id="navbar">
+    <li class="nav-item"><a class="nav-link" id="hover-nav-menu" href="{{ url('/') }}#home">Home</a></li>
+    <li class="nav-item ml-lg-4"><a class="nav-link" id="hover-nav-menu2" href="{{ url('/') }}#about">About</a></li>
+    <li class="nav-item ml-lg-4"><a class="nav-link" id="hover-nav-menu3" href="{{ url('/') }}#classes">Classes</a></li>
+    <li class="nav-item ml-lg-4"><a class="nav-link" id="hover-nav-menu7" href="{{ url('/') }}#blog">Products</a></li>
+</ul>
+@endsection
+
 @section('css')
 
     #exe-header{
