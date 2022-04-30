@@ -463,7 +463,7 @@
         var getAjax = function(val) {
             $.ajax({
                 type: "get",
-                url: "/dashboard/get_follow_up",
+                url: "/get_follow_up",
                 data: {
                     'category_id': val
                 },

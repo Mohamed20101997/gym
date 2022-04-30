@@ -25,5 +25,5 @@ Route::get('/exercise/{follow_id}/{category_id}', 'HomeController@exercise')->na
 
 Route::get('/check', 'HomeController@check')->name('front.check');
 
-
+Route::get('get_follow_up', 'HomeController@get_follow_up')->name('get_follow_up');
 

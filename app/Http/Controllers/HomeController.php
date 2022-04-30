@@ -81,9 +81,14 @@ class HomeController extends Controller
     }
 
     public function logout(){
-        $guard = \Auth::guard('client');
-        $guard->logout();
-        return redirect()->back();
+        try {
+            $guard = \Auth::guard('client');
+            $guard->logout();
+            return redirect()->route('home');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => 'There is a problem']);
+        }
     }
 
 
@@ -158,6 +163,14 @@ class HomeController extends Controller
             return redirect()->back()->with(['error' => 'There is a problem']);
         }
 
+    }
+
+    public function get_follow_up(Request $request){
+        $followUps = FollowUp::where('category_id', $request->category_id)->get();
+        $followUp_id = $request->follow_up_id;
+        $html = view('dashboard.client.follow_up_options' , compact('followUps','followUp_id'))->render();
+
+        return response()->json($html);
     }
 
 }
