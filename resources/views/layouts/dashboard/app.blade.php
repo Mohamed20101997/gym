@@ -93,7 +93,7 @@
     <header class="main-header">
 
         {{--<!-- Logo -->--}}
-        <a href="{{ asset('dashboard/index') }}" class="logo">
+        <a href="{{ route('index') }}" class="logo">
             {{--<!-- mini logo for sidebar mini 50x50 pixels -->--}}
             <span class="logo-mini"><b>G</b>YM</span>
             <span class="logo-lg"><b>GYM</b></span>
